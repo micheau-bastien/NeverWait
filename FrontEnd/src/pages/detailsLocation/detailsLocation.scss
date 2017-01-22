@@ -1,0 +1,37 @@
+details-location-home{
+    .imageDetail{
+        max-height: 300px;
+        max-width: 500px;
+        object-fit: contain;
+    }
+    .centerImage{
+        display: flex;
+        align-items: center;  
+        justify-content: center;
+        width : 100%;
+        height : 100px;
+    }
+    .barHistoDay{
+        background: color($colors, primary, base);
+    }
+
+    .queue{
+        border-left: 2px solid black;
+        border-right: 2px solid black;
+        max-width: 150px;
+    }
+
+    .sensor{
+        margin : 3px;
+        height: 40px;
+    }
+
+    .iconQueue{
+        margin-left : 65px;
+        font-size : 2em;
+    }
+
+    .iconSensor{
+        color : white;
+    }
+}

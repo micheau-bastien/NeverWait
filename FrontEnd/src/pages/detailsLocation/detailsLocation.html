@@ -1,0 +1,104 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>
+            NeverWait
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-card>
+        <img src="{{location.urlImg}}" class="imageDetail" />
+        <ion-card-content>
+            <ion-card-title>
+                {{ location.nom }}
+            </ion-card-title>
+            <ion-item>
+                <ion-icon name="clock" item-left large></ion-icon>
+                <h2>Temps attente estimé</h2>
+                <p>{{location.tempsAtt}} min</p>
+            </ion-item>
+            <ion-item *ngIf="nbReport > 5">
+                <ion-icon color="danger" name="warning" item-left large></ion-icon>
+                <h2>Temps estimé possiblement imprecis</h2>
+                <p>{{nbReport}} utilisateurs ont signalés que le temps indiqué était faussé.</p>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="people" item-left large></ion-icon>
+                <h2>Taux d'occupation</h2>
+                <p>{{location.taux_occupation}} %</p>
+            </ion-item>
+        </ion-card-content>
+        <ion-row no-padding>
+            <ion-col>
+            </ion-col>
+            <ion-col text-center>
+            </ion-col>
+            <ion-col text-right>
+                <button *ngIf="!hasSignaledError" ion-button clear small color="danger" icon-left (click)="reportError()">
+                    <ion-icon name='warning'></ion-icon>
+                    Temps d'attente inexact
+                </button>
+            </ion-col>
+        </ion-row>
+    </ion-card>
+    <ion-card>
+        <ion-card-content>
+            <ion-card-title>
+                Densité actuelle de la file
+            </ion-card-title>
+
+            <p>Voici une representation de la densité de personnes dans la file en direct. La file est fortement chargée sur
+                les parties en rouge, occupée sur les parties en orange et libre sur les parties en verts. </p>
+
+            <ion-grid style="margin: auto; width: 150px;">
+<ion-row>
+    <ion-icon name="home" class="iconQueue"></ion-icon>
+</ion-row>
+<ion-row class="queue" *ngFor="let sensor of location.sensors">
+    <ion-col style="padding : 0px;">
+<div class="sensor" [style.background]="(sensor == 2) ? '#F44336' : (sensor == 1) ? '#FF9800' : '#4CAF50'">
+    <div style="padding-top: 7px; padding-left: 46px; font-size: 1.5em;">
+<ion-icon class="iconSensor" name="people" *ngIf="sensor > 1" large></ion-icon>
+<ion-icon class="iconSensor" name="people" *ngIf="sensor > 0" large></ion-icon>
+</div>
+</div>
+</ion-col>
+</ion-row>
+<ion-row>
+    <ion-icon name="arrow-round-up" class="iconQueue"></ion-icon>
+</ion-row>
+</ion-grid>
+</ion-card-content>
+</ion-card>
+
+<ion-card *ngFor="let histo of histos">
+    <ion-card-content>
+        <ion-card-title>
+            Historique du {{histo.date}}
+        </ion-card-title>
+        <ion-item>
+            <ion-icon name="clock" item-left large></ion-icon>
+            <h2>Temps attente moyen</h2>
+            <p>{{histo.global.tempsAttMoy}}</p>
+        </ion-item>
+        <ion-item>
+            <ion-grid>
+                <ion-scroll scrollX="true" [style.height.px]="(maxAtt * 10)+70">
+                    <ion-row>
+                        <ion-col *ngFor="let histo of histo.heures">
+                            <div>
+                                <p style="text-align: center;">{{histo.name}}</p>
+<div [style.height.px]="(maxAtt - histo.value)*10"></div>
+<div [style.height.px]="histo.value * 10" class="barHistoDay"> </div>
+<p style="text-align: center;">{{histo.value}} min</p>
+</div>
+</ion-col>
+</ion-row>
+</ion-scroll>
+</ion-grid>
+</ion-item>
+</ion-card-content>
+</ion-card>
+
+</ion-content>

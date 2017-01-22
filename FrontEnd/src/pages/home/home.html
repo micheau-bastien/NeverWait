@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      NeverWait
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addLocation()"><ion-icon name="add"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let location of locations" (click)="goTo(location)">
+      <ion-avatar item-left>
+        <img src="{{location.urlImg}}" style="object-fit: contain;">
+      </ion-avatar>
+      <h2>{{ location.nom }}</h2>
+      <p>Temps attente : {{location.tempsAtt}}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>
