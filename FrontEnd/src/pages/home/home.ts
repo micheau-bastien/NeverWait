@@ -11,33 +11,25 @@ import { BackEnd } from '../../providers/sails';
   providers: [BackEnd]
 })
 export class HomePage {
+  // Array of the différent locations and the lives datas on each locations
   private locations: any = [];
 
   public detailsLocationPage: any = DetailsLocationPage;
 
   constructor(public navCtrl: NavController, private http: Http, public alertController: AlertController, public backEnd: BackEnd, public loadingController: LoadingController) {
+    // Print a loader
     let loader = this.loadingController.create({ content: "Chargement des données..." });
     loader.present();
-   
-/*    //Test Http
-    this.http.get("https://httpbin.org/ip")
-        .subscribe(data => {
-            var alert = alertController.create({
-                title: "Your IP Address",
-                subTitle: data.json().origin,
-                buttons: ["close"]
-            }).present();
-        }, error => {
-            console.log(JSON.stringify(error.json()));
-        });
-*/
-   this.backEnd.fetchLocations().subscribe(answer => {
+    // Fetch all locations and live datas about the location
+    this.backEnd.fetchLocations().subscribe(answer => {
+      // Transfer the locations to the locations var
       answer.json().forEach(res => {
         this.locations.push(res);
       })
+      // hide the loader
       loader.dismiss();
     }, error => {
-      console.log(error);
+      //If there is a connexion error we dismiss the loader an print an alert 
       loader.dismiss();
       let alert = this.alertController.create({
         title: 'Erreur de réseau!',
@@ -48,6 +40,7 @@ export class HomePage {
     })
   }
 
+  // @Todo : Add a new location on the application. Must do a login feature to know what user wants to see what queues
   addLocation() {
     let alert = this.alertController.create({
       title: 'Feature is coming!',
@@ -57,6 +50,7 @@ export class HomePage {
     alert.present();
   }
 
+  // Tap on a location to see more infos about it
   goTo(location) {
     this.navCtrl.push(this.detailsLocationPage, {
       location: location

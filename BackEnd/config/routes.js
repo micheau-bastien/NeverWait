@@ -31,7 +31,9 @@ module.exports.routes = {
   * `assets` directory)                                                      *
   *                                                                          *
   ***************************************************************************/
-
+  'get /': {
+    view: 'homepage'
+  },
   'post /_action/reset': {
     controller: 'NeverwaitController',
     action: 'reset'
@@ -56,7 +58,7 @@ module.exports.routes = {
     controller: 'ReportController',
     action: 'getNbReportForIdAndTime'
   }
-  
+
 
   /***************************************************************************
   *                                                                          *

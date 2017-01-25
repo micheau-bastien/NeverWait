@@ -28,13 +28,17 @@ module.exports = {
         //Vérification des arguments passés
         if (!req.body.name) return res.badRequest("Pas de name")
         if (!req.body.sensors) return res.badRequest("Pas de sensors")
+        if (!req.body.year) return res.badRequest("Pas de year")
+        if (!req.body.month) return res.badRequest("Pas de month")
+        if (!req.body.day) return res.badRequest("Pas de day")
+        if (!req.body.hour) return res.badRequest("Pas de hour")
+        if (!req.body.min) return res.badRequest("Pas de min")
         Neverwait.findOne({ nom: req.body.name }).exec(function (err, foundNeverWait) {
             if (!err) {
                 // On vérifie que le nom donné dans la requete est bien le bon
                 if (!foundNeverWait) {
                     return res.serverError('Name not found in database, asks an admin to create the location');
                 }
-
                 // Calcul du temps d'attente et du taux de remplissage                
                 var tempsAtt = 0;
                 var taux_occupation = 0;
@@ -95,7 +99,7 @@ module.exports = {
 };
 
 var editHisto = function (histo, body, tempsAtt) {
-    var now = new Date();
+    var now = new Date(body.year, body.month, body.day, body.hour, body.min);
     let formatedDate = formatDate(now);    
     if (!histo.dates[formatedDate]) {
         // Si il n'y a pas encore d'historique pour la date donnée on le crée
@@ -133,7 +137,7 @@ var findHour = function (hour, min) {
 }
 
 var editHistoAlreadyCreated = function (histo, body, tempsAtt) {
-    var now = new Date();
+    var now = new Date(body.year, body.month, body.day, body.hour, body.min);
     let formatedDate = formatDate(now);
     histo.dates[formatedDate].global.tempsAttMoy = editMoy(histo.dates[formatedDate].global.tempsAttMoy, histo.dates[formatedDate].global.nbVal, tempsAtt)
     histo.dates[formatedDate].global.nbVal++;
